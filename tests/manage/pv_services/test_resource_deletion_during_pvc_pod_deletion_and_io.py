@@ -18,6 +18,10 @@ from tests.helpers import (
     wait_for_resource_count_change, verify_pv_mounted_on_node,
     default_ceph_block_pool
 )
+from ocs_ci.ocs.node import (
+    wait_for_nodes_status,
+    get_typed_nodes, drain_nodes, schedule_nodes
+)
 from tests import disruption_helpers
 
 log = logging.getLogger(__name__)
@@ -447,3 +451,7 @@ class TestResourceDeletionDuringMultipleDeleteOperations(ManageTest):
         # Check ceph status
         ceph_health_check(namespace=config.ENV_DATA['cluster_namespace'])
         log.info("Ceph cluster health is OK")
+
+        log.info("Checking nodes status, bug #1745022")
+        wait_for_nodes_status(constants.NODE_READY)
+        log.info("All nodes are READY")

@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 
 
 @bugzilla('1734259')
+@bugzilla('1745022')
 @tier2
 @pytest.mark.parametrize(
     argnames='interface',
@@ -129,7 +130,7 @@ class TestMultiplePvcConcurrentDeletionCreation(ManageTest):
                 f"in backend"
             )
 
-        # Verify status of nodes
+        # Verify status of nodes 1745022
         for node in get_node_objs():
             node_status = node.ocp.get_resource_status(node.name)
             assert (node_status == constants.NODE_READY), (
